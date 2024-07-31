@@ -20,5 +20,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),  # Incluez les URLs de votre API
+    path('api/', include('api.urls')),  # Inclure les URLs de votre API
+    path('api/', include('djoser.urls')),  # Inclure les URLs de Djoser pour la gestion des utilisateurs
+    path('api/', include('djoser.urls.authtoken')),  # Inclure les URLs pour l'authentification par token
 ]
+
