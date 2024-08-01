@@ -25,3 +25,7 @@ urlpatterns = [
     path('api/', include('djoser.urls.authtoken')),  # Inclure les URLs pour l'authentification par token
 ]
 
+"""
+commmentaires =
+
+"""
