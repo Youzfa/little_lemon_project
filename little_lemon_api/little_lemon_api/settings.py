@@ -42,14 +42,44 @@ INSTALLED_APPS = [
     # Mes applications
     'api',  # Votre application API
     'rest_framework',  # Django REST Framework
+    'rest_framework.authtoken',  # Pour l'authentification par token
+    'django_filters',
     'djoser',  # Djoser pour la gestion des utilisateurs
 ]
 
 # Autres configurations...
 
+# Configuration de Django REST Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',  # Pour le filtrage
+        'rest_framework.filters.OrderingFilter',              # Pour le tri
+        'rest_framework.filters.SearchFilter',                # Pour la recherche
+    ],
+    'DEFAULT_PAGINATION_CLASS': 
+        'rest_framework.pagination.PageNumberPagination',
+        'PAGE_SIZE': 3,  # Nombre d'éléments par page
+        'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',  # Limitation pour les utilisateurs anonymes
+        'rest_framework.throttling.UserRateThrottle',   # Limitation pour les utilisateurs authentifiés
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/minute',  # Limite de 5 appels par minute pour les utilisateurs anonymes
+        'user': '5/minute',  # Limite de 5 appels par minute pour les utilisateurs authentifiés
+    },
+}
+
+
+
 # Configuration de Djoser
 DJOSER = {
-    'LOGIN_FIELD': 'email',
+    'LOGIN_FIELD': 'username',  # Utilisez username comme champ de connexion
     'USER_CREATE_PASSWORD_RETYPE': True,
     'SERIALIZERS': {
         'user_create': 'api.serializers.UserCreateSerializer',
