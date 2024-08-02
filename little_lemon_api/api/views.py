@@ -9,7 +9,7 @@ from .serializers import MenuItemSerializer, CategorySerializer
 from .serializers import UserSerializer, GroupSerializer
 from .serializers import OrderSerializer, CartSerializer
 from django_filters import rest_framework as django_filters
-from django_filters import rest_framework as filters
+from rest_framework import filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
@@ -31,7 +31,7 @@ class MenuItemFilter(django_filters.FilterSet):
 class MenuItemViewSet(viewsets.ModelViewSet):
     queryset = MenuItem.objects.all()
     serializer_class = MenuItemSerializer
-    filter_backends = (filters.OrderingFilter, filters.SearchFilter, django_filters.DjangoFilterBackend)
+    filter_backends = (django_filters.DjangoFilterBackend, filters.OrderingFilter, filters.SearchFilter)
     filterset_class = MenuItemFilter
     search_fields = ['title']  # Permet de rechercher par titre
     ordering_fields = ['price', 'title']  # Champs par lesquels vous pouvez trier
